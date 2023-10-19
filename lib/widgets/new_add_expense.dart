@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:spese_condivise/providers/expenses_provider.dart';
 import '../models/expense.dart';
 
 class NewExpenseModal extends StatefulWidget {
@@ -34,6 +35,8 @@ class _NewExpenseModalState extends State<NewExpenseModal> {
       payer: _selectedPayer,
       date: _selectedDate,
     );
+
+    addExpense(newExpense);
 
     Navigator.of(context).pop(newExpense);
   }

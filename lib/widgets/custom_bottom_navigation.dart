@@ -45,7 +45,7 @@ class _CustomBottomNavigationState
     }
 
     List<Widget> _pages = <Widget>[
-      AllExpenses(),
+      AllExpenses(expenses: expenses),
       RecentExpenses(
         lastExpenses: getLastExpenses(),
       ),
