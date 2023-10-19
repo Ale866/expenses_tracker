@@ -1,13 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:spese_condivise/screens/recent_expenses.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spese_condivise/firebase_options.dart';
+import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/widgets/custom_bottom_navigation.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Create a new user with a first and last name
+  final expense = Expense(
+    title: "spesa prova",
+    date: DateTime.now(),
+    category: Category.Affitto,
+    payer: Payer.Mancio,
+    cost: 25,
+  );
+
   runApp(
-    MaterialApp(
-      home: CustomBottomNavigation(),
+    const MaterialApp(
+      home: ProviderScope(child: CustomBottomNavigation()),
     ),
   );
-/// This file contains the main function of the Flutter application.
-/// It is the entry point of the app and it initializes the app and runs it.
 }
