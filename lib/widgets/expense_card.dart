@@ -3,20 +3,22 @@ import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/models/expense.dart';
 
 class ExpenseCard extends StatefulWidget {
-  const ExpenseCard({super.key});
+  const ExpenseCard({super.key, required this.expense});
+
+  final Expense expense;
 
   @override
   State<ExpenseCard> createState() => _ExpenseCardState();
 }
 
 class _ExpenseCardState extends State<ExpenseCard> {
-  final expense = Expense(
-    title: "Latte e acqua e pane",
-    date: DateTime.now(),
-    category: Category.Affitto,
-    payer: Payer.Mancio,
-    cost: 12,
-  );
+  // final expense = Expense(
+  //   title: "Latte e acqua e pane",
+  //   date: DateTime.now(),
+  //   category: Category.Affitto,
+  //   payer: Payer.Mancio,
+  //   cost: 12,
+  // );
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,7 +59,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                           Container(
                             width: 180,
                             child: Text(
-                              expense.title,
+                              widget.expense.title,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -68,7 +70,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                             ),
                           ),
                           Text(
-                            expense.formattedDate,
+                            widget.expense.formattedDate,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
@@ -84,7 +86,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                           Padding(
                             padding: const EdgeInsets.only(top: 6.0),
                             child: Text(
-                              '${expense.cost.toString()} €',
+                              '${widget.expense.cost.toString()} €',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -93,7 +95,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                             ),
                           ),
                           Text(
-                            expense.payer.name[0].toUpperCase(),
+                            widget.expense.payer.name[0].toUpperCase(),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -116,7 +118,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                         width: 70,
                         child: Icon(
                           size: 40,
-                          categoryIcons[expense.category],
+                          categoryIcons[widget.expense.category],
                           color: Colors.white,
                         ),
                       ),

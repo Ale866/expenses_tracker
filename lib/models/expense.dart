@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Expense {
-  Expense(
-      {required this.title,
-      required this.date,
-      required this.category,
-      required this.payer,
-      required this.cost,})
-      : id = '';
+  Expense({
+    required this.title,
+    required this.date,
+    required this.category,
+    required this.payer,
+    required this.cost,
+  }) : id = '';
 
   Expense.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         date = DateTime.parse(json['date']),
         title = json['title'],
-        category = Category.values.firstWhere((e) => e.name == json['category']),
+        category =
+            Category.values.firstWhere((e) => e.name == json['category']),
         payer = Payer.values.firstWhere((e) => e.name == json['payer']),
-        cost = json['cost'];
+        cost = (json['cost']).toDouble();
 
   final String id;
   final DateTime date;
@@ -37,7 +38,7 @@ class Expense {
     return cost / 2;
   }
 
-  Map<String,dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       "id": id,
       "date": date.toString(),
@@ -47,8 +48,9 @@ class Expense {
       "cost": cost,
     };
   }
+
   @override
-  String toString(){
+  String toString() {
     return toMap().toString();
   }
 }
@@ -72,7 +74,6 @@ const categoryIcons = {
   Category.Trasporti: Icons.airplanemode_active,
   Category.Altro: Icons.more_outlined,
 };
-
 
 enum Payer {
   Mancio,

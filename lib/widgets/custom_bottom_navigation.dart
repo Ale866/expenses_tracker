@@ -10,22 +10,18 @@ class CustomBottomNavigation extends ConsumerStatefulWidget {
   const CustomBottomNavigation({super.key});
 
   @override
-  ConsumerState<CustomBottomNavigation> createState() => _CustomBottomNavigationState();
+  ConsumerState<CustomBottomNavigation> createState() =>
+      _CustomBottomNavigationState();
 }
 
-class _CustomBottomNavigationState extends ConsumerState<CustomBottomNavigation> {
+class _CustomBottomNavigationState
+    extends ConsumerState<CustomBottomNavigation> {
   int _selectedIndex = 1;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-
-  static const List<Widget> _pages = <Widget>[
-    AllExpenses(),
-    RecentExpenses(),
-    ExpensesChart()
-  ];
 
   static const List<String> _pagesTitles = <String>[
     "Tutte le spese",
@@ -37,6 +33,24 @@ class _CustomBottomNavigationState extends ConsumerState<CustomBottomNavigation>
   Widget build(BuildContext context) {
     List<Expense>? expenses = ref.watch(expensesProvider).value;
     expenses ??= [];
+    List<Expense> lastExpenses = [];
+
+    List<Expense> getLastExpenses() {
+      if (expenses != null && expenses.isNotEmpty) {
+        expenses.sort((a, b) => b.date.compareTo(a.date));
+        print(expenses);
+        return lastExpenses = expenses!.take(5).toList();
+      }
+      return lastExpenses = [];
+    }
+
+    List<Widget> _pages = <Widget>[
+      AllExpenses(),
+      RecentExpenses(
+        lastExpenses: getLastExpenses(),
+      ),
+      ExpensesChart()
+    ];
 
     return Scaffold(
       appBar: AppBar(

@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import '../models/expense.dart';
 
 class NewExpenseModal extends StatefulWidget {
+  const NewExpenseModal({super.key});
+
   @override
   _NewExpenseModalState createState() => _NewExpenseModalState();
 }
@@ -89,45 +91,41 @@ class _NewExpenseModalState extends State<NewExpenseModal> {
                         Container(
                           height: 50,
                           width: 100,
-                          child: Expanded(
-                            child: DropdownButton<Category>(
-                              value: _selectedCategory,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _selectedCategory = newValue!;
-                                });
-                              },
-                              items: Category.values
-                                  .map<DropdownMenuItem<Category>>(
-                                      (Category value) {
-                                return DropdownMenuItem<Category>(
-                                  value: value,
-                                  child: Text(value.name),
-                                );
-                              }).toList(),
-                            ),
+                          child: DropdownButton<Category>(
+                            value: _selectedCategory,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedCategory = newValue!;
+                              });
+                            },
+                            items: Category.values
+                                .map<DropdownMenuItem<Category>>(
+                                    (Category value) {
+                              return DropdownMenuItem<Category>(
+                                value: value,
+                                child: Text(value.name),
+                              );
+                            }).toList(),
                           ),
                         ),
                         SizedBox(width: 10),
                         Container(
                           height: 50,
                           width: 100,
-                          child: Expanded(
-                            child: DropdownButton<Payer>(
-                              value: _selectedPayer,
-                              onChanged: (Payer? newValue) {
-                                setState(() {
-                                  _selectedPayer = newValue!;
-                                });
-                              },
-                              items: Payer.values
-                                  .map<DropdownMenuItem<Payer>>((Payer value) {
-                                return DropdownMenuItem<Payer>(
-                                  value: value,
-                                  child: Text(value.name),
-                                );
-                              }).toList(),
-                            ),
+                          child: DropdownButton<Payer>(
+                            value: _selectedPayer,
+                            onChanged: (Payer? newValue) {
+                              setState(() {
+                                _selectedPayer = newValue!;
+                              });
+                            },
+                            items: Payer.values
+                                .map<DropdownMenuItem<Payer>>((Payer value) {
+                              return DropdownMenuItem<Payer>(
+                                value: value,
+                                child: Text(value.name),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ],
