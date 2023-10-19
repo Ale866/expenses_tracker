@@ -92,7 +92,7 @@ class _NewExpenseModalState extends State<NewExpenseModal> {
                           child: Expanded(
                             child: DropdownButton<Category>(
                               value: _selectedCategory,
-                              onChanged: (Category? newValue) {
+                              onChanged: (newValue) {
                                 setState(() {
                                   _selectedCategory = newValue!;
                                 });
@@ -102,7 +102,7 @@ class _NewExpenseModalState extends State<NewExpenseModal> {
                                       (Category value) {
                                 return DropdownMenuItem<Category>(
                                   value: value,
-                                  child: Text(value.toString().split('.').last),
+                                  child: Text(value.name),
                                 );
                               }).toList(),
                             ),
@@ -124,7 +124,7 @@ class _NewExpenseModalState extends State<NewExpenseModal> {
                                   .map<DropdownMenuItem<Payer>>((Payer value) {
                                 return DropdownMenuItem<Payer>(
                                   value: value,
-                                  child: Text(value.toString().split('.').last),
+                                  child: Text(value.name),
                                 );
                               }).toList(),
                             ),

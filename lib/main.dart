@@ -8,6 +8,4 @@ void main() {
       home: CustomBottomNavigation(),
     ),
   );
-/// This file contains the main function of the Flutter application.
-/// It is the entry point of the app and it initializes the app and runs it.
 }

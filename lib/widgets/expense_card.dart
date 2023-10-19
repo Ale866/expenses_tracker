@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spese_condivise/models/expense.dart';
+import 'package:spese_condivise/models/expense.dart';
 
 class ExpenseCard extends StatefulWidget {
   const ExpenseCard({super.key});
@@ -10,11 +11,11 @@ class ExpenseCard extends StatefulWidget {
 
 class _ExpenseCardState extends State<ExpenseCard> {
   final expense = Expense(
-    title: "spesa prova",
+    title: "Latte e acqua e pane",
     date: DateTime.now(),
     category: Category.Affitto,
     payer: Payer.Mancio,
-    cost: 25,
+    cost: 12,
   );
   @override
   Widget build(BuildContext context) {
@@ -24,35 +25,109 @@ class _ExpenseCardState extends State<ExpenseCard> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Card(
-          color: Colors.blue,
-          // child: Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(expense.title),
-                  Text('${expense.cost.toString()} €')
-                ],
+          color: Colors.transparent,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(
+              color: Colors.purple,
+              width: 2,
+            ),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.purple, Color.fromARGB(255, 89, 38, 98)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(expense.formattedDate),
-                  Text(expense.category.name),
-                  Text(expense.payer.name),
-                ],
-              ),
-            ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 180,
+                            child: Text(
+                              expense.title,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            expense.formattedDate,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                          // SizedBox(height: 2),
+                        ],
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6.0),
+                            child: Text(
+                              '${expense.cost.toString()} €',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            expense.payer.name[0].toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.symmetric(
+                                vertical:
+                                    BorderSide(color: Colors.white, width: 2))),
+                        width: 70,
+                        child: Icon(
+                          size: 40,
+                          categoryIcons[expense.category],
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      // ),
     );
   }
 }
