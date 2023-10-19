@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Expense {
@@ -61,6 +62,17 @@ enum Category {
   Trasporti,
   Altro,
 }
+
+const categoryIcons = {
+  Category.Affitto: Icons.home_sharp,
+  Category.Spesa: Icons.shopping_bag,
+  Category.Svago: Icons.movie,
+  Category.Bollette: Icons.electrical_services,
+  Category.Istruzione: Icons.book,
+  Category.Trasporti: Icons.airplanemode_active,
+  Category.Altro: Icons.more_outlined,
+};
+
 
 enum Payer {
   Mancio,

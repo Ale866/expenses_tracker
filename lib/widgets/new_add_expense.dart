@@ -78,51 +78,79 @@ class _NewExpenseModalState extends State<NewExpenseModal> {
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 onSubmitted: (_) => _submitData(),
               ),
-              DropdownButton<Category>(
-                value: _selectedCategory,
-                onChanged: (Category? newValue) {
-                  setState(() {
-                    _selectedCategory = newValue!;
-                  });
-                },
-                items: Category.values
-                    .map<DropdownMenuItem<Category>>((Category value) {
-                  return DropdownMenuItem<Category>(
-                    value: value,
-                    child: Text(value.toString().split('.').last),
-                  );
-                }).toList(),
-              ),
-              DropdownButton<Payer>(
-                value: _selectedPayer,
-                onChanged: (Payer? newValue) {
-                  setState(() {
-                    _selectedPayer = newValue!;
-                  });
-                },
-                items: Payer.values.map<DropdownMenuItem<Payer>>((Payer value) {
-                  return DropdownMenuItem<Payer>(
-                    value: value,
-                    child: Text(value.toString().split('.').last),
-                  );
-                }).toList(),
-              ),
+              SizedBox(height: 10),
               Row(
-                children: <Widget>[
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 100,
+                          child: Expanded(
+                            child: DropdownButton<Category>(
+                              value: _selectedCategory,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedCategory = newValue!;
+                                });
+                              },
+                              items: Category.values
+                                  .map<DropdownMenuItem<Category>>(
+                                      (Category value) {
+                                return DropdownMenuItem<Category>(
+                                  value: value,
+                                  child: Text(value.name),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Container(
+                          height: 50,
+                          width: 100,
+                          child: Expanded(
+                            child: DropdownButton<Payer>(
+                              value: _selectedPayer,
+                              onChanged: (Payer? newValue) {
+                                setState(() {
+                                  _selectedPayer = newValue!;
+                                });
+                              },
+                              items: Payer.values
+                                  .map<DropdownMenuItem<Payer>>((Payer value) {
+                                return DropdownMenuItem<Payer>(
+                                  value: value,
+                                  child: Text(value.name),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      child: Icon(Icons.calendar_month_outlined),
+                      onPressed: _presentDatePicker,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
                   Expanded(
                     child: Text(
                       _selectedDate == null
                           ? 'No Date Chosen!'
-                          : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                          : 'Picked Date: ${DateFormat('dd / MMM / yy').format(_selectedDate)}',
                     ),
-                  ),
-                  TextButton(
-                    // textColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: _presentDatePicker,
                   ),
                 ],
               ),
