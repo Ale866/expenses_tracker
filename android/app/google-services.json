@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "904102701136",
+    "firebase_url": "https://expense-tracker-2428b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "expense-tracker-2428b",
+    "storage_bucket": "expense-tracker-2428b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904102701136:android:af3c0623f28414a7628955",
+        "android_client_info": {
+          "package_name": "com.example.spese_condivise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8dFm0JeWUA4wPahEgnthqSO1TEdyy70o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

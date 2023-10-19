@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
-
-final uuid = Uuid();
 
 class Expense {
   Expense(
@@ -11,7 +8,15 @@ class Expense {
       required this.category,
       required this.payer,
       required this.cost,})
-      : id = uuid.v4();
+      : id = '';
+
+  Expense.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        date = DateTime.parse(json['date']),
+        title = json['title'],
+        category = Category.values.firstWhere((e) => e.name == json['category']),
+        payer = Payer.values.firstWhere((e) => e.name == json['payer']),
+        cost = json['cost'];
 
   final String id;
   final DateTime date;
@@ -30,6 +35,21 @@ class Expense {
 
   double get costPerPerson {
     return cost / 2;
+  }
+
+  Map<String,dynamic> toMap(){
+    return {
+      "id": id,
+      "date": date.toString(),
+      "title": title,
+      "category": category.name,
+      "payer": payer.name,
+      "cost": cost,
+    };
+  }
+  @override
+  String toString(){
+    return toMap().toString();
   }
 }
 
