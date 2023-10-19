@@ -11,6 +11,7 @@ final _db = FirebaseFirestore.instance;
 final expensesProvider = StreamProvider.autoDispose<List<Expense>>(
   (ref) {
     final stream = FirebaseFirestore.instance.collection('expenses').snapshots();
+    ref.keepAlive();
     return stream.map((snapshot) => snapshot.docs.map((doc) {
           print("DOC: ${doc.data()}");
           return Expense.fromJson({...doc.data(), 'id' : doc.id});
