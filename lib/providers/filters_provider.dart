@@ -3,34 +3,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/providers/expenses_provider.dart';
 
-
-Map<String,dynamic> kInitialFilters = {
-  "fromDate" : "all",
-  "toDate" : "all",
-  "category" : {
-     Category.Affitto: true,
-      Category.Bollette: true,
-      Category.Istruzione: true,
-      Category.Spesa: true,
-      Category.Svago: true,
-      Category.Trasporti: true,
-      Category.Altro: true,
+Map<String, dynamic> kInitialFilters = {
+  "fromDate": "all",
+  "toDate": "all",
+  "category": {
+    Category.Affitto: true,
+    Category.Bollette: true,
+    Category.Istruzione: true,
+    Category.Spesa: true,
+    Category.Svago: true,
+    Category.Trasporti: true,
+    Category.Altro: true,
   },
 };
 
 class FiltersNotifier extends StateNotifier<Map<String, dynamic>> {
   FiltersNotifier() : super(kInitialFilters);
 
-  void setFilters(Map<String,dynamic> filters) {
+  void setFilters(Map<String, dynamic> filters) {
     state = filters;
   }
 
-  void setFilter(String filter, DateTime isActive) { 
-    state = {...state, filter: isActive};
-  }  
-  void setCategoryFilter(Category cat, bool isActive) { 
-    Map<Category,bool> categoryFilters = state["category"];
-    state = {...state, "category": {...categoryFilters, cat: isActive}};
+  void setDateFilters(DateTime startDate, DateTime endDate) {
+    state = {...state, 'fromDate': startDate, 'toDate': endDate};
+  }
+
+  void setCategoryFilter(Category cat, bool isActive) {
+    Map<Category, bool> categoryFilters = state["category"];
+    state = {
+      ...state,
+      "category": {...categoryFilters, cat: isActive}
+    };
   }
 }
 
@@ -39,18 +42,19 @@ final filtersProvider =
   (ref) => FiltersNotifier(),
 );
 
-final filteredExpenseProvider = Provider.autoDispose((ref) {
+final filteredExpenseProvider = Provider.autoDispose<List<Expense>>((ref) {
   final filters = ref.watch(filtersProvider);
   final expenses = ref.watch(expensesProvider).value;
   ref.keepAlive();
 
-  if(expenses == null){
+  if (expenses == null) {
     return [];
   }
 
   return expenses.where((expense) {
-    if(filters["fromDate"] != "all" && filters["toDate"] != "all"){
-      if(expense.date.isBefore(filters["fromDate"]) || expense.date.isAfter(filters["toDate"])) return false;
+    if (filters["fromDate"] != "all" && filters["toDate"] != "all") {
+      if (expense.date.isBefore(filters["fromDate"]) ||
+          expense.date.isAfter(filters["toDate"])) return false;
     }
     final expenseCategory = expense.category;
     return filters["category"][expenseCategory];

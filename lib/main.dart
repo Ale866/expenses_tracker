@@ -7,6 +7,7 @@ import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/widgets/custom_bottom_navigation.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
