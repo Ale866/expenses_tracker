@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/providers/expenses_provider.dart';
+import 'package:spese_condivise/providers/filters_provider.dart';
 import 'package:spese_condivise/screens/all_expenses.dart';
 import 'package:spese_condivise/screens/expenses_chart.dart';
 import 'package:spese_condivise/screens/recent_expenses.dart';
@@ -32,7 +33,9 @@ class _CustomBottomNavigationState
   @override
   Widget build(BuildContext context) {
     List<Expense>? expenses = ref.watch(expensesProvider).value;
+    List<Expense>? filteredExpenses = ref.watch(filteredExpenseProvider);
     expenses ??= [];
+    filteredExpenses ??= [];
     List<Expense> lastExpenses = [];
 
     List<Expense> getLastExpenses() {
@@ -45,7 +48,7 @@ class _CustomBottomNavigationState
     }
 
     List<Widget> _pages = <Widget>[
-      AllExpenses(expenses: expenses),
+      AllExpenses(expenses: filteredExpenses),
       RecentExpenses(
         lastExpenses: getLastExpenses(),
       ),
@@ -63,7 +66,7 @@ class _CustomBottomNavigationState
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.euro_sharp),
-            label: 'Chart',
+            label: 'Expenses',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

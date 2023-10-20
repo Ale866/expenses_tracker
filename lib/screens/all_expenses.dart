@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/providers/expenses_provider.dart';
 import 'package:spese_condivise/widgets/expense_card.dart';
+import 'package:spese_condivise/widgets/expenses_filters.dart';
 
 class AllExpenses extends StatefulWidget {
   const AllExpenses({super.key, required this.expenses});
@@ -24,14 +25,7 @@ class _AllExpensesState extends State<AllExpenses> {
             height: 50,
             color: Colors.white,
             child: Center(
-              child: Text(
-                'Filtri qui',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: ExpensesFilters(),
             ),
           ),
           Expanded(
