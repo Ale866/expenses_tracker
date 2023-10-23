@@ -4,16 +4,16 @@ import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/providers/expenses_provider.dart';
 
 Map<String, dynamic> kInitialFilters = {
-  "fromDate": "all",
-  "toDate": "all",
+  "startDate": null,
+  "endDate": null,
   "category": {
-    Category.Affitto: true,
-    Category.Bollette: true,
-    Category.Istruzione: true,
-    Category.Spesa: true,
-    Category.Svago: true,
-    Category.Trasporti: true,
-    Category.Altro: true,
+    Category.Affitto: false,
+    Category.Bollette: false,
+    Category.Istruzione: false,
+    Category.Spesa: false,
+    Category.Svago: false,
+    Category.Trasporti: false,
+    Category.Altro: false,
   },
 };
 
@@ -24,8 +24,12 @@ class FiltersNotifier extends StateNotifier<Map<String, dynamic>> {
     state = filters;
   }
 
-  void setDateFilters(DateTime startDate, DateTime endDate) {
-    state = {...state, 'fromDate': startDate, 'toDate': endDate};
+  void setDateFilters(DateTime? startDate, DateTime? endDate) {
+    state = {...state, 'startDate': startDate, 'endDate': endDate};
+  }
+
+  void setDateFilter(String arg, DateTime date) {
+    state = {...state, arg: date};
   }
 
   void setCategoryFilter(Category cat, bool isActive) {
@@ -34,6 +38,10 @@ class FiltersNotifier extends StateNotifier<Map<String, dynamic>> {
       ...state,
       "category": {...categoryFilters, cat: isActive}
     };
+  }
+
+  void resetFilters() {
+    state = kInitialFilters;
   }
 }
 
@@ -52,11 +60,13 @@ final filteredExpenseProvider = Provider.autoDispose<List<Expense>>((ref) {
   }
 
   return expenses.where((expense) {
-    if (filters["fromDate"] != "all" && filters["toDate"] != "all") {
-      if (expense.date.isBefore(filters["fromDate"]) ||
-          expense.date.isAfter(filters["toDate"])) return false;
+    if (filters["startDate"] != null && filters["endDate"] != null) {
+      if (expense.date.isBefore(filters["startDate"]) ||
+          expense.date.isAfter(filters["endDate"])) return false;
     }
     final expenseCategory = expense.category;
+    if (filters["category"].values.every((element) => element == false))
+      return true;
     return filters["category"][expenseCategory];
   }).toList();
 });

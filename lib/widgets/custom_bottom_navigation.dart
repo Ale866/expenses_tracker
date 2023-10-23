@@ -5,6 +5,7 @@ import 'package:spese_condivise/providers/expenses_provider.dart';
 import 'package:spese_condivise/providers/filters_provider.dart';
 import 'package:spese_condivise/screens/all_expenses.dart';
 import 'package:spese_condivise/screens/expenses_chart.dart';
+import 'package:spese_condivise/screens/money_tracker.dart';
 import 'package:spese_condivise/screens/recent_expenses.dart';
 
 class CustomBottomNavigation extends ConsumerStatefulWidget {
@@ -27,7 +28,8 @@ class _CustomBottomNavigationState
   static const List<String> _pagesTitles = <String>[
     "Tutte le spese",
     "Spese recenti",
-    "Grafici"
+    "Grafici",
+    "Vista soldi"
   ];
 
   @override
@@ -41,7 +43,6 @@ class _CustomBottomNavigationState
     List<Expense> getLastExpenses() {
       if (expenses != null && expenses.isNotEmpty) {
         expenses.sort((a, b) => b.date.compareTo(a.date));
-        print(expenses);
         return lastExpenses = expenses!.take(5).toList();
       }
       return lastExpenses = [];
@@ -52,7 +53,8 @@ class _CustomBottomNavigationState
       RecentExpenses(
         lastExpenses: getLastExpenses(),
       ),
-      ExpensesChart()
+      ExpensesChart(),
+      MoneyTracker()
     ];
 
     return Scaffold(
@@ -63,6 +65,7 @@ class _CustomBottomNavigationState
         child: _pages.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.euro_sharp),
@@ -75,6 +78,10 @@ class _CustomBottomNavigationState
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
             label: 'Charts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.money),
+            label: 'Money',
           ),
         ],
         currentIndex: _selectedIndex,

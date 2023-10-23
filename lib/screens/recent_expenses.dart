@@ -3,33 +3,28 @@ import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/widgets/expense_card.dart';
 import 'package:spese_condivise/widgets/new_add_expense.dart';
 
-class RecentExpenses extends StatefulWidget {
+class RecentExpenses extends StatelessWidget {
   const RecentExpenses({super.key, required this.lastExpenses});
 
   final List<Expense> lastExpenses;
 
   @override
-  State<RecentExpenses> createState() => _RecentExpensesState();
-}
-
-class _RecentExpensesState extends State<RecentExpenses> {
-  void _openModal() {
-    showModalBottomSheet(
-      useSafeArea: true,
-      isScrollControlled: true,
-      context: context,
-      builder: (ctx) => NewExpenseModal(),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    void _openModal() {
+      showModalBottomSheet(
+        useSafeArea: true,
+        isScrollControlled: true,
+        context: context,
+        builder: (ctx) => NewExpenseModal(),
+      );
+    }
+
     return Container(
       padding: EdgeInsets.only(top: 18),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          for (var expense in widget.lastExpenses)
+          for (var expense in lastExpenses)
             ExpenseCard(expense: expense),
           Expanded(
             child: Container(

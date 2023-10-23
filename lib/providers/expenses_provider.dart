@@ -13,7 +13,6 @@ final expensesProvider = StreamProvider.autoDispose<List<Expense>>(
     final stream = FirebaseFirestore.instance.collection('expenses').snapshots();
     ref.keepAlive();
     return stream.map((snapshot) => snapshot.docs.map((doc) {
-          print("DOC: ${doc.data()}");
           return Expense.fromJson({...doc.data(), 'id' : doc.id});
     }).toList());
   },

@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spese_condivise/models/expense.dart';
 import 'package:spese_condivise/providers/expenses_provider.dart';
+import 'package:spese_condivise/providers/filters_provider.dart';
 import 'package:spese_condivise/widgets/expense_card.dart';
 import 'package:spese_condivise/widgets/expenses_filters.dart';
 
-class AllExpenses extends StatefulWidget {
+class AllExpenses extends ConsumerWidget {
   const AllExpenses({super.key, required this.expenses});
 
   final List<Expense> expenses;
 
   @override
-  State<AllExpenses> createState() => _AllExpensesState();
-}
-
-class _AllExpensesState extends State<AllExpenses> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: EdgeInsets.only(top: 18),
       child: Column(
         children: [
           Container(
             width: double.infinity,
-            height: 50,
+            height: 120,
             color: Colors.white,
             child: Center(
               child: ExpensesFilters(),
@@ -32,20 +29,26 @@ class _AllExpensesState extends State<AllExpenses> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: ListView.builder(
-                itemCount: widget.expenses.length,
+                itemCount: expenses.length,
                 itemBuilder: (ctx, i) => Dismissible(
-                    key: ValueKey(widget.expenses[i]),
+                    key: ValueKey(expenses[i]),
                     background: Container(
                       color: Colors.red,
                       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
                     ),
                     onDismissed: (dir) {
-                      removeExpense(widget.expenses[i]);
+                      removeExpense(expenses[i]);
                     },
-                    child: ExpenseCard(expense: widget.expenses[i])),
+                    child: ExpenseCard(expense: expenses[i])),
               ),
             ),
           ),
+          TextButton(
+            onPressed: () {
+              ref.read(filtersProvider.notifier).resetFilters();
+            },
+            child: Text("Cancella tutto"),
+          )
         ],
       ),
     );

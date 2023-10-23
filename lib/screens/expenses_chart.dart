@@ -1,17 +1,19 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spese_condivise/models/expense.dart';
+import 'package:spese_condivise/providers/filters_provider.dart';
 import 'package:spese_condivise/resources/app_colors.dart';
 import 'package:spese_condivise/widgets/indicator.dart';
 
-class ExpensesChart extends StatefulWidget {
+class ExpensesChart extends ConsumerStatefulWidget {
   const ExpensesChart({super.key});
 
   @override
-  State<StatefulWidget> createState() => PieChartSample1State();
+  ConsumerState<ExpensesChart> createState() => PieChartSample1State();
 }
 
-class PieChartSample1State extends State {
+class PieChartSample1State extends ConsumerState<ExpensesChart> {
   int touchedIndex = -1;
   final colorMap = {
     Category.Affitto: AppColors.contentColorBlue,
@@ -23,7 +25,6 @@ class PieChartSample1State extends State {
     Category.Altro: AppColors.contentColorRed,
   };
 
-  
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -67,40 +68,9 @@ class PieChartSample1State extends State {
 
   List<PieChartSectionData> showingSections() {
     final List<PieChartSectionData> sections = [];
-    List<Expense>? expenses = [
-      Expense(
-          title: "Spesa",
-          category: Category.Affitto,
-          cost: 100,
-          date: DateTime.now(),
-          payer: Payer.Mancio),
-      Expense(
-          title: "Spesa",
-          category: Category.Spesa,
-          cost: 80,
-          date: DateTime.now(),
-          payer: Payer.Mancio),
-      Expense(
-          title: "Bollette",
-          category: Category.Bollette,
-          cost: 120,
-          date: DateTime.now(),
-          payer: Payer.Mancio),
-      Expense(
-          title: "Istruzione",
-          category: Category.Istruzione,
-          cost: 180,
-          date: DateTime.now(),
-          payer: Payer.Mancio),
-      Expense(
-          title: "Svago",
-          category: Category.Svago,
-          cost: 90,
-          date: DateTime.now(),
-          payer: Payer.Mancio),
-    ];
+    List<Expense> expenses = ref.watch(filteredExpenseProvider);
     double sommaSpese = 0;
-    expenses.forEach((element) {
+    expenses!.forEach((element) {
       sommaSpese += element.cost;
     });
 
