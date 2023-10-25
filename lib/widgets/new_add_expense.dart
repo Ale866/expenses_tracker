@@ -35,13 +35,14 @@ class _NewExpenseModalState extends State<NewExpenseModal> {
       payer: _selectedPayer,
       date: _selectedDate,
     );
-
     addExpense(newExpense);
 
     Navigator.of(context).pop(newExpense);
   }
 
+
   void _presentDatePicker() {
+
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),

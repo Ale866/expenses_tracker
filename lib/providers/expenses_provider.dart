@@ -18,6 +18,7 @@ final expensesProvider = StreamProvider.autoDispose<List<Expense>>(
   },
 );
 
+
 void addExpense(Expense e){
   _db.collection('expenses').add(e.toMap());
 }

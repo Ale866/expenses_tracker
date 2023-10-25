@@ -31,15 +31,29 @@ class AllExpenses extends ConsumerWidget {
               child: ListView.builder(
                 itemCount: expenses.length,
                 itemBuilder: (ctx, i) => Dismissible(
-                    key: ValueKey(expenses[i]),
-                    background: Container(
-                      color: Colors.red,
-                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-                    ),
-                    onDismissed: (dir) {
-                      removeExpense(expenses[i]);
-                    },
-                    child: ExpenseCard(expense: expenses[i])),
+                  key: ValueKey(expenses[i]),
+                  background: Container(
+                    color: Colors.red,
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+                  ),
+                  onDismissed: (dir) {
+                    final removedExpense = expenses[i];
+                    removeExpense(removedExpense);
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Expense removed"),
+                        action: SnackBarAction(
+                          label: "Undo",
+                          onPressed: () {
+                            addExpense(removedExpense);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  child: ExpenseCard(expense: expenses[i]),
+                ),
               ),
             ),
           ),
@@ -47,7 +61,7 @@ class AllExpenses extends ConsumerWidget {
             onPressed: () {
               ref.read(filtersProvider.notifier).resetFilters();
             },
-            child: Text("Cancella tutto"),
+            child: Text("Cancella filtri"),
           )
         ],
       ),
